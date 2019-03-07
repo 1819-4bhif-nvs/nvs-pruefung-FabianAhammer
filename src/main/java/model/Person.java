@@ -5,7 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Person.total", query = "select p FROM Person p")
+        @NamedQuery(name = "Person.total", query = "select p FROM Person p"),
+        @NamedQuery(name = "Person.getById", query = "select p from Person p where p.id = :id")
 })
 public class Person {
 
@@ -22,6 +23,9 @@ public class Person {
     public Person(String gender, String firstName) {
         this.gender = gender;
         this.firstName = firstName;
+    }
+
+    public Person() {
     }
 
     public Long getId() {
@@ -46,5 +50,14 @@ public class Person {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id :" + id +
+                ",\n gender :'" + gender +
+                ",\n firstName :'" + firstName +
+                '}';
     }
 }

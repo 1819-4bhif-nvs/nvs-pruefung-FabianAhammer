@@ -27,16 +27,31 @@ public class InitBean {
     @PostConstruct
     public void init() {
 
-        new BufferedReader(new InputStreamReader(this.getClass()
-                .getResourceAsStream(FILE_MALE), Charset.defaultCharset()))
-                .lines()
-                .map(a -> new Person(Gender.Male.toString(),a))
-                .forEach(em::persist);
+        try {
+            BufferedReader br = new BufferedReader(
+            new InputStreamReader(getClass().getResourceAsStream("/" + FILE_MALE)));
+            br.readLine();
+            String line;
+            Person person;
+            while ((line = br.readLine()) != null) {
+                person = new Person(Gender.Male.toString(), line);
+                em.persist(person);
+            }
 
-        new BufferedReader(new InputStreamReader(this.getClass()
-                .getResourceAsStream(FILE_FEMALE), Charset.defaultCharset()))
-                .lines()
-                .map(a -> new Person(Gender.Female.toString(),a))
-                .forEach(em::persist);
+            br = new BufferedReader(
+            new InputStreamReader(getClass().getResourceAsStream("/" + FILE_FEMALE)));
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                person = new Person(Gender.Male.toString(), line);
+                em.persist(person);
+            }
+
+
+            em.flush();
+
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+        }
     }
 }
